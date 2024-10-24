@@ -78,5 +78,25 @@ namespace ThemeIntegrationInNet.Controllers
         {
             return View();  
         }
+
+        [HttpGet]
+        public IActionResult AddJobFromJquery()
+        {
+            JobInfomration jobInfomration = new JobInfomration();
+            jobInfomration.JobTypeData = jobTypeService.GetJobType();
+            return View(jobInfomration);
+        }
+
+        [HttpPost]
+        public IActionResult AddJobFromJson(JobInfomration jobInfomration)
+        {
+           var d= jobService.AddJob(jobInfomration);
+
+            return Json(new
+            {
+                Message = "Data Saved...",
+                result = d
+            });
+        }
     }
 }

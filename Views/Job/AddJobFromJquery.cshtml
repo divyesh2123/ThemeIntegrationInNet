@@ -1,0 +1,36 @@
+﻿@{
+    Layout = null;
+}
+
+@model ThemeIntegrationInNet.BussinessEntity.JobInfomration
+
+    <form asp-action="AddJob" asp-controller="Job" method="post">
+
+                  <input type="hidden" asp-for="JobId" />
+                <div class="card-body">
+                  <div class="form-group">
+                    <label for="exampleInputEmail1">Job Description</label>
+                    <input type="text" class="form-control" asp-for="JobDescription">
+                  </div>
+
+                    <div class="form-group">
+                    <label for="exampleInputEmail1">Job Title</label>
+                    <input type="text" class="form-control" asp-for="JobTitle">
+                  </div>
+
+
+                  <div class="form-group">
+                    <label for="exampleInputEmail1"></label>
+                    <select  class="form-control" asp-for="JobType" asp-items="Model.JobTypeData" >
+                     </select>
+                  </div>
+                
+                </div>
+                <!-- /.card-body -->
+
+                <div class="card-footer">
+                  <button type="submit" class="btn btn-primary">Submit</button>
+                </div>
+              </form>
+
+
