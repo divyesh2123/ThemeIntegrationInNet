@@ -105,7 +105,7 @@
 </div>
 @section Scripts {
   <script>
-      var dataTable,showInPopup;
+      var dataTable,showInPopup,jQueryAjaxPost;
     $(document).ready(function () {
             dataTable = $("#job").DataTable({
                 "ajax": {
@@ -154,6 +154,44 @@
             })
 
 
+        }
+
+         jQueryAjaxPost = form => {
+            try {
+                $.ajax({
+                    type: 'POST',
+                    url: form.action,
+                    data: new FormData(form),
+                    contentType: false,
+                    processData: false,
+                    success: function (res) {
+                        console.log(res);
+                        if (res.result) {
+
+                            $('#formd').html('');
+                            $('#title').html('');
+
+                            var myOffcanvas = document.getElementById('demo')
+                            let openedCanvas = bootstrap.Offcanvas.getInstance(myOffcanvas);
+                            openedCanvas.hide();
+
+                            dataTable.ajax.reload();
+                            swal(res.message, {
+                                icon: "success",
+                            });
+                        }
+                        else
+                            $('#form-modal .modal-body').html(res.html);
+                    },
+                    error: function (err) {
+                        console.log(err)
+                    }
+                })
+                //to prevent default form submit event
+                return false;
+            } catch (ex) {
+                console.log(ex)
+            }
         }
   </script>
 }

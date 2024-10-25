@@ -4,7 +4,7 @@
 
 @model ThemeIntegrationInNet.BussinessEntity.JobInfomration
 
-    <form asp-action="AddJob" asp-controller="Job" method="post">
+    <form asp-action="AddJobFromJson" asp-controller="Job" method="post" onsubmit="return jQueryAjaxPost(this);">
 
                   <input type="hidden" asp-for="JobId" />
                 <div class="card-body">

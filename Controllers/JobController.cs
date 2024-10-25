@@ -12,9 +12,9 @@ namespace ThemeIntegrationInNet.Controllers
 
 
         public JobController(IJobService _jobService, IJobTypeService _jobTypeService)
-        
+
         {
-             jobService = _jobService;
+            jobService = _jobService;
 
             jobTypeService = _jobTypeService;
         }
@@ -41,7 +41,7 @@ namespace ThemeIntegrationInNet.Controllers
                 return View(jobInfomration);
             }
 
-            if(jobInfomration.JobId >0)
+            if (jobInfomration.JobId > 0)
             {
                 jobService.UpdateJob(jobInfomration);
             }
@@ -49,7 +49,7 @@ namespace ThemeIntegrationInNet.Controllers
             {
                 jobService.AddJob(jobInfomration);
             }
-           
+
             return RedirectToAction("Index");
         }
 
@@ -71,12 +71,12 @@ namespace ThemeIntegrationInNet.Controllers
         public IActionResult DisplayData()
         {
             var d = jobService.GetJobInformation();
-            return Json(new {data = d});
+            return Json(new { data = d });
         }
 
         public IActionResult IndexJqueryData()
         {
-            return View();  
+            return View();
         }
 
         [HttpGet]
@@ -90,13 +90,15 @@ namespace ThemeIntegrationInNet.Controllers
         [HttpPost]
         public IActionResult AddJobFromJson(JobInfomration jobInfomration)
         {
-           var d= jobService.AddJob(jobInfomration);
+            var d = jobService.AddJob(jobInfomration);
 
             return Json(new
             {
-                Message = "Data Saved...",
+                message = "Data Saved...",
                 result = d
             });
         }
+
+        
     }
 }
