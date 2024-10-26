@@ -87,18 +87,58 @@ namespace ThemeIntegrationInNet.Controllers
             return View(jobInfomration);
         }
 
+        [HttpGet]
+        public IActionResult EditJobFromJquery(int id)
+        {
+            var p = jobService.GetJob(id);
+           
+            p.JobTypeData = jobTypeService.GetJobType();
+           
+            
+            return View("AddJobFromJquery", p);
+        }
+
         [HttpPost]
         public IActionResult AddJobFromJson(JobInfomration jobInfomration)
         {
-            var d = jobService.AddJob(jobInfomration);
+            if (jobInfomration.JobId > 0)
+            {
+                var p = jobService.UpdateJob(jobInfomration);
+
+                return Json(new
+                {
+                    message = "Data Updated...",
+                    result = p
+                });
+            }
+            else
+            {
+               var k = jobService.AddJob(jobInfomration);
+
+                return Json(new
+                {
+                    message = "Data Added...",
+                    result = k
+                });
+            }
+
+
+          
+        }
+
+        [HttpPost]
+        public IActionResult Delete(int id)
+        {
+           var d = jobService.DeleteJob(id);
 
             return Json(new
             {
-                message = "Data Saved...",
+                message = "Data Deleted...",
                 result = d
             });
         }
 
-        
+
+
     }
 }

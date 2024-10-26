@@ -46,9 +46,9 @@
                             <thead>
                                 <tr>
                                     <th>Title</th>
-                                    <th>Id</th>
+                                    
                                     <th>Description</th>
-
+                                    <th>Action</th>
                                 </tr>
                             </thead>
 
@@ -105,7 +105,7 @@
 </div>
 @section Scripts {
   <script>
-      var dataTable,showInPopup,jQueryAjaxPost;
+      var dataTable,showInPopup,jQueryAjaxPost,deleteInfo;
     $(document).ready(function () {
             dataTable = $("#job").DataTable({
                 "ajax": {
@@ -115,8 +115,17 @@
                 },
                 "columns": [
                     { "data": "jobTitle" },
-                    { "data": "jobId" },
+                    
                     { "data": "jobDescription" },
+                    { "data": "jobId" ,
+                      "render": 
+                        function (data) {
+                            return "<a class='btn btn-primary btn-sm' onclick=showInPopup('@Url.Action("EditJobFromJquery","Job")/" + data + "',true) ><i class='fa fa-pencil'></i> Edit</a><a onclick='deleteInfo(" + data + ")' class='btn btn-danger btn-sm' style='margin-left:5px' ><i class='fa fa-trash'></i> Delete</a>";
+                        },
+                        "orderable": false,
+                        "searchable": false,
+                            
+                    }
 
                 ],
                 "language": {
@@ -193,5 +202,47 @@
                 console.log(ex)
             }
         }
+
+        deleteInfo= (id)=>{
+
+
+             swal({
+                title: "Are you sure?",
+                text: "Once deleted, you will not be able to recover this record!",
+                icon: "warning",
+                buttons: true,
+                dangerMode: true,
+                showCancelButton: true,
+            }).then((willDelete) => {
+                    if (willDelete) {
+
+
+                        $.ajax({
+                            type: "POST",
+                            url: '@Url.Action("Delete","Job")/' + id,
+                            success: function (data) {
+                                if (data.result) {
+                                    dataTable.ajax.reload();
+
+                                    swal(data.message, {
+                                        icon: "success",
+                                    });
+                                }
+
+                                else {
+
+                                    swal("Error");
+                                }
+                            }
+
+                        });
+
+
+
+                    }
+                });
+
+        }
+
   </script>
 }
